@@ -1,0 +1,13 @@
+div.container
+  div.row
+    div.span6.offset4
+      h1 Node API Search
+  div.row
+    div.span6.offset4
+      form(action='/query', method='post')
+        <input id='searchinput' class='span4' type='text' data-provide='typeahead' placeholder='请输入' autocomplete='off' />
+  div.row#result
+
+
+script(src='/bootstrap/js/bootstrap-typeahead.js', type='text/javascript', charset='utf-8')
+script(src='/javascripts/client.js', type='text/javascript', charset='utf-8')
