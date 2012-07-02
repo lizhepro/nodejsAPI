@@ -43,8 +43,8 @@ $(document).ready(function() {
 
         //Do data request. Insert your own API logic here.
 
-        $.getJSON("/query",{
-          q: $(this).val()
+        $.getJSON("/query", {
+          q: self.val()
         }, function(data) {
           indexList = data;
 
@@ -58,7 +58,11 @@ $(document).ready(function() {
           var i = 0;
           for(var key in data) {
             var value = data[key];
-            arr[i++] = '[' + value.type + ']' + value.textRaw
+            var typeString = '';
+            if(value.type) {
+              typeString = '[' + value.type + ']';
+            }
+            arr[i++] = typeString + value.textRaw
             console.log(value.textRaw);
           }
 
