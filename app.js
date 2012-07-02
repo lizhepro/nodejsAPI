@@ -6,7 +6,6 @@
 var express = require('express')
   , routes = require('./routes');
 var dataProvider = require('./dataProvider');
-var jsonSearch = require('./json-search');
 
 var app = module.exports = express.createServer();
 
@@ -27,6 +26,8 @@ app.configure('development', function(){
 });
 
 app.configure('production', function(){
+  var oneYear = 31557600000;
+  app.use(express.static(__dirname + '/public', {maxAge: oneYear}));
   app.use(express.errorHandler());
 });
 
@@ -40,7 +41,7 @@ dataProvider.prepareData(function(err, arr) {
   });
 
 
-  app.listen(3000, function(){
+  app.listen(process.env.VCAP_APP_PORT || 3000, function(){
     console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
   });
 });

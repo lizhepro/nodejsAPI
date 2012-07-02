@@ -1,22 +1,10 @@
-var http = require('http');
-var rest = require('./rest');
 var async = require('async');
-var jsonSearch = require('./json-search');
-
-const NODEJS_HOST = 'nodejs.org';
-const NODEJS_PORT = 80;
-
+var wrench = require('wrench');
+var fs = require('fs');
+var path = require('path');
 
 
-var getOptions = function(contentUrl) {
-  var url = contentUrl || 'index.json';
-  return {
-    host: NODEJS_HOST,
-    port: NODEJS_PORT,
-    path: '/api/' + url,
-    method: 'GET'
-  };
-};
+
 
 
 var extractApiObject = function(obj, indexList) {
@@ -33,57 +21,40 @@ var extractApiObject = function(obj, indexList) {
   }
 };
 
-var getApiContentUrl = function(item) {
-  if(!item) return null;
-  var contentUrl = null;
-  if(item.type == 'text') {
-    if(item.text.toLowerCase() == 'appendixes') {
-      return false;
-    }
-    var itemText = item.text;
-
-    contentUrl = itemText.substring(
-      itemText.indexOf('(') + 1,
-      itemText.indexOf(')')
-    ).replace(/html$/, 'json');
-  }
-
-  return contentUrl;
-};
 
 var prepareData = function(cb) {
   var indexList = {};
 
-  rest.getJSON(getOptions(), function(res, result) {
-    if(res.statusCode == 200) {
-      var desc = result.desc;
+  var jsonDirName = path.join(__dirname, 'json');
 
-      var i = 0;
-      async.whilst(
-        function() {
-          return i < desc.length;
-        },
-        function(callback) {
-          i++;
-          var item = desc[i];
-          var contentUrl = getApiContentUrl(item);
-          if(contentUrl) {
-            rest.getJSON(getOptions(contentUrl), function(res, result) {
-              if(res.statusCode == 200) {
-                extractApiObject(result, indexList);
-                callback();
-              };
-            });
-          } else {
-            callback();
-          }
-        }, function(err) {
-          console.log('%d data prepare completed!!!', i);
-          cb(null, indexList);
+  var fileNames = wrench.readdirSyncRecursive(jsonDirName);
+
+  var i = 0;
+  var files = [];
+  async.whilst(
+    function() {
+      return i < fileNames.length;
+    },
+    function(callback) {
+      console.log('readding %s', fileNames[i]);
+      fs.readFile(path.join(jsonDirName, fileNames[i]), 'utf-8',
+      function(err, data) {
+        files.push(data);
+        callback(err);
+      });
+      i++;
+    },
+    function(err) {
+      if(!err) {
+        for(var i=0; i<files.length; i++) {
+          extractApiObject(JSON.parse(files[i]), indexList);
         }
-      );
+        cb(null, indexList);
+      } else {
+        cb(err);
+      }
     }
-  });
+  );
 };
 
 module.exports.prepareData = prepareData;

@@ -1,5 +1,5 @@
 {
-    "name": "application-name"
+    "name": "nodejsapi"
   , "version": "0.0.1"
   , "private": true
   , "dependencies": {
@@ -7,5 +7,6 @@
     , "stylus": ">= 0.0.1"
     , "jade": ">= 0.0.1"
     , "async": ">= 0.1.22"
+    , "wrench": ">= 1.3.9"
   }
 }
