@@ -1,8 +1,6 @@
-
 /**
  * Module dependencies.
  */
-
 var express = require('express')
   , routes = require('./routes');
 var dataProvider = require('./dataProvider');

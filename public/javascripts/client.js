@@ -48,8 +48,6 @@ $(document).ready(function() {
         }, function(data) {
           indexList = data;
 
-          /*                     	console.log(data.results.length); */
-
           //set this to true when your callback executes
           self.data('active',true);
 
