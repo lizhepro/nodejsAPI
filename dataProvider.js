@@ -1,60 +1,80 @@
 var async = require('async');
-var wrench = require('wrench');
 var fs = require('fs');
 var path = require('path');
+var rest = require('./rest');
+var objectUtil = require('./object-util');
 
 
 
 
-
-var extractApiObject = function(obj, indexList) {
-  for(var key in obj) {
-    if(key == 'params') continue;
-    var value = obj[key];
-    if(typeof(value) == 'object') {
-      extractApiObject(value, indexList);
-    } else if(typeof(value) == 'string') {
-      if(key == 'textRaw') {
-        indexList[value] = obj;
-      }
+var grabJSON = exports.grabJSON = function() {
+    var getOptions = function(path) {
+        return {
+            host: 'nodejs.org',
+            method: 'GET',
+            path: path || '/api/index.json'
+        };
     }
-  }
-};
+    rest.getResponse(getOptions(), function(response, output) {
+        if(response.statusCode == 200) {
+            var jsonObj = JSON.parse(output);
+            var desc = jsonObj.desc;
 
+            var jsonFileNames = [];
+            for(var i=0, item; item= desc[i]; i++) {
+                if(!item.text) continue;
 
-var prepareData = function(cb) {
-  var indexList = {};
+                var matchResult = item.text.match(/\((\w+)\.\w+\)/);
+                if(matchResult) {
+                    jsonFileNames.push(matchResult[1].concat('.json'));
+                }
+            }
 
-  var jsonDirName = path.join(__dirname, 'json');
+            var apiList = {};
+            var JSON_DIR_NAME = __dirname + '/public/json/';
+            var q = async.queue(function(task, callback) {
+                console.log('task == ' + task);
+                var path = '/api/'.concat(task);
+                rest.getResponse(getOptions(path),
+                function(response, output) {
+                    if(response.statusCode == 200) {
+                        var jsonObj = JSON.parse(output);
+                        apiList[task] = objectUtil
+                        .extractObjectKeyPath(jsonObj, 'textRaw');
+                        fs.writeFile(JSON_DIR_NAME + task,
+                            JSON.stringify(jsonObj),
+                            'utf-8', function(err) {
+                            if(err) {
+                                console.log(err.stack);
+                            }
+                        });
 
-  var fileNames = wrench.readdirSyncRecursive(jsonDirName);
+                        callback();
+                    }
+                });
+            }, jsonFileNames.length);
 
-  var i = 0;
-  var files = [];
-  async.whilst(
-    function() {
-      return i < fileNames.length;
-    },
-    function(callback) {
-      console.log('readding %s', fileNames[i]);
-      fs.readFile(path.join(jsonDirName, fileNames[i]), 'utf-8',
-      function(err, data) {
-        files.push(data);
-        callback(err);
-      });
-      i++;
-    },
-    function(err) {
-      if(!err) {
-        for(var i=0; i<files.length; i++) {
-          extractApiObject(JSON.parse(files[i]), indexList);
+            q.drain = function() {
+                var stringData = JSON.stringify(apiList);
+                fs.writeFile(JSON_DIR_NAME + 'mydata.json',
+                stringData, 'utf-8', function(err) {
+                    if(!err) {
+                        console.log('finished generate mydata.json');
+                    } else {
+                        console.log(err.stack);
+                    }
+                });
+            };
+
+            q.push(jsonFileNames, function(err) {
+
+            });
         }
-        cb(null, indexList);
-      } else {
-        cb(err);
-      }
-    }
-  );
+    });
 };
 
-module.exports.prepareData = prepareData;
+grabJSON();
+
+process.on('uncaughtException', function(err) {
+    console.log(err.stack);
+});

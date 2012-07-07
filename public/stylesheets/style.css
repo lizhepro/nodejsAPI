@@ -1,13 +1,21 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #d2d8ba !important;
 }
 a {
   color: #00b7ff;
 }
-#searchinput {
-  font-family: 'Courier New', courier, monospace;
-}
+#searchinput,
 .typeahead {
   font-family: 'Courier New', courier, monospace;
+}
+.show-grid {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+#result {
+  font-family: Georgia, FreeSerif, Times, serif;
+  font-size: 18px;
+  line-height: 24px;
 }
