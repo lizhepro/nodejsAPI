@@ -1,18 +1,15 @@
 $(document).ready(function() {
-    var indexList = null;
+    var searchInput = $('#searchinput');
+    var resultDiv = $('#result');
 
     var apiList;
     $.getJSON("/json/mydata.json", function(data) {
         apiList = data;
+        searchInput.focus();
     });
 
-
-    var searchInput = $('#searchinput');
-    var resultDiv = $('#result');
     var autocomplete = searchInput.typeahead({
         updater: function(item) {
-
-
             var itemPath;
             var owner;
             var myKeys = Object.keys(apiList);
@@ -35,8 +32,9 @@ $(document).ready(function() {
 
             return item;
         }
-    })
-    .on('keyup', function(ev) {
+    }).on('dblclick', function() {
+        $(this).select();
+    }).on('keyup', function(ev) {
 
         ev.stopPropagation();
         ev.preventDefault();
@@ -48,32 +46,27 @@ $(document).ready(function() {
 
             if(!self.data('active') && self.val().length > 0){
 
-
-                if(self.val().length > 0){
-
-
-                    var rInput = new RegExp($(this).val(), 'i');
-                    var dropDownApiNames = [];
-                    var myKeys = Object.keys(apiList);
-                    for(var i=0, apiFileName; apiFileName=myKeys[i]; i++) {
-                        var apiFileJSON = apiList[apiFileName];
-                        var apiNameKeys = Object.keys(apiFileJSON);
-                        for(var j=0, apiName; apiName=apiNameKeys[j]; j++) {
-                            if(rInput.test(apiName)) {
-                                dropDownApiNames.push(apiName);
-                            }
+                var rInput = new RegExp($(this).val(), 'i');
+                var dropDownApiNames = [];
+                var myKeys = Object.keys(apiList);
+                for(var i=0, apiFileName; apiFileName=myKeys[i]; i++) {
+                    var apiFileJSON = apiList[apiFileName];
+                    var apiNameKeys = Object.keys(apiFileJSON);
+                    for(var j=0, apiName; apiName=apiNameKeys[j]; j++) {
+                        if(rInput.test(apiName)) {
+                            dropDownApiNames.push(apiName);
                         }
                     }
-                    self.data('active', true);
-
-                    //set your results into the typehead's source
-                    self.data('typeahead').source = dropDownApiNames;
-
-                    //trigger keyup on the typeahead to make it search
-                    self.trigger('keyup');
-
-                    self.data('active', false);
                 }
+                self.data('active', true);
+
+                //set your results into the typehead's source
+                self.data('typeahead').source = dropDownApiNames;
+
+                //trigger keyup on the typeahead to make it search
+                self.trigger('keyup');
+
+                self.data('active', false);
             }
         }
     });
