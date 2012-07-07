@@ -3,8 +3,8 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: #d2d8ba !important;
 }
-a {
-  color: #00b7ff;
+.title {
+  text-align: center;
 }
 #searchinput,
 .typeahead {
