@@ -1,10 +1,10 @@
 var objectUtil = require('../object-util');
 /*
- * GET home page.
- */
+* GET home page.
+*/
 
 exports.index = function(req, res){
-    res.render('index', { title: 'NodejsAPI' });
+  res.render('index', { title: 'NodejsAPI' });
 };
 
 

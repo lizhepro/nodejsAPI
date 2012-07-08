@@ -1,21 +1,44 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: #d2d8ba !important;
 }
 .title {
   text-align: center;
 }
 #searchinput,
 .typeahead {
-  font-family: 'Courier New', courier, monospace;
+  font-family: 'Courier New' courier monospace;
 }
 .show-grid {
   margin-top: 10px;
   margin-bottom: 20px;
 }
-#result {
-  font-family: Georgia, FreeSerif, Times, serif;
-  font-size: 18px;
+#api-desc {
+  font-family: Georgia FreeSerif Times serif;
+  font-size: 16px;
   line-height: 24px;
+}
+#api-signatures h3 {
+  margin: 20px 0 5px 0;
+}
+#api-signatures ul {
+  margin-bottom: 15px;
+}
+#api-signatures li,
+#api-signatures p {
+  font-family: Georgia, FreeSerif, Times, serif;
+  font-size: 16px;
+  line-height: 22px;
+}
+p {
+  text-rendering: optimizeLegibility;
+}
+#api-signatures p {
+  margin-bottom: 30px;
+}
+.dropdown-type {
+  margin-right: 8px;
+}
+h3 {
+  font-family: Helvetica, Arial, sans-serif;
 }
