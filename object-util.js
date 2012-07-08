@@ -12,7 +12,11 @@ exports.extractObjectKeyPath = function(obj, key) {
                 iterObject(v, key);
             } else if (typeof v === 'string') {
                 if (k === key) {
-                    indexList[v] = path.slice(0, level).join('.');
+                    var currentPath = path.slice(0, level);
+                    indexList[v] = {
+                        p: currentPath.join('.'),
+                        t: obj.type
+                    };
                 }
             }
         }
