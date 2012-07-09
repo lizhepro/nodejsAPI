@@ -1,20 +1,21 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
 }
 .title {
   text-align: center;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
 }
 #searchinput,
 .typeahead {
-  font-family: 'Courier New' courier monospace;
+  font-family: 'Courier New', courier, monospace;
 }
 .show-grid {
   margin-top: 10px;
   margin-bottom: 20px;
 }
 #api-desc {
-  font-family: Georgia FreeSerif Times serif;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
   font-size: 16px;
   line-height: 24px;
 }
@@ -26,7 +27,7 @@ body {
 }
 #api-signatures li,
 #api-signatures p {
-  font-family: Georgia, FreeSerif, Times, serif;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
   font-size: 16px;
   line-height: 22px;
 }
@@ -40,5 +41,5 @@ p {
   margin-right: 8px;
 }
 h3 {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
 }
