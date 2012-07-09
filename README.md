@@ -1,8 +1,11 @@
 # Nodejs API
-[nodejsapi](http://nodejsapi.cloudfoundry.com/)
+[nodejsapi](http://nodejsapi.cloudfoundry.com/) inspired by [ctrlp](https://github.com/kien/ctrlp.vim/), type whatever you like.
+
+##SUPPORTED BROWSER
+* firefox, chrome, ie9+
 
 ##TODO
-* 下拉列表数据展示更多数据细节
-* 优化传输的数据大小
-* api内容界面优化
-
+* api内容界面优化 已加入class构造函数，待加入module稳定指数
+* 将数据缓存到客户端
+* api正文内容预加载
+* 加载api列表导航（click whatever you like）
