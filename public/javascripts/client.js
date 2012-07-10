@@ -58,7 +58,7 @@ $(document).ready(function() {
 
       if(!self.data('active') && self.val().length > 0){
 
-        var rInput = new RegExp($(this).val(), 'i');
+        var rInput = new RegExp(escapeInput($(this).val()), 'i');
         var dropDownApiList = [];
         var myKeys = Object.keys(apiList);
         for(var i=0, apiFileName; apiFileName=myKeys[i]; i++) {
@@ -159,4 +159,8 @@ var generateSignatureHtml = function(value) {
     }
   }
   return returnHtml;
+};
+
+var escapeInput = function(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };

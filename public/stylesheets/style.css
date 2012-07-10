@@ -6,10 +6,6 @@ body {
   text-align: center;
   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
 }
-#searchinput,
-.typeahead {
-  font-family: 'Courier New', courier, monospace;
-}
 .show-grid {
   margin-top: 10px;
   margin-bottom: 20px;
