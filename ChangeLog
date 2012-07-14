@@ -1,0 +1,17 @@
+* [31m5f1af8d[m -[33m (HEAD, origin/master_clean, master_clean)[m update ui, bigger input, bigger dropdown list [32m(9 minutes ago) [1;34m<lizhe>[m
+* [31m9af153f[m -[33m[m added navigation bar [32m(12 hours ago) [1;34m<lizhe>[m
+* [31m6eb5fe0[m -[33m[m removed dropdown list font style escape user input [32m(4 days ago) [1;34m<lizhe>[m
+* [31made3df6[m -[33m[m fix some typos [32m(4 days ago) [1;34m<lizhe>[m
+* [31mc6e5eda[m -[33m[m update the font style and README [32m(4 days ago) [1;34m<lizhe>[m
+* [31m3d1e33f[m -[33m[m fix bootstrap typeahead can not navigate with the keyboard up & down in firefox [32m(4 days ago) [1;34m<lizhe>[m
+* [31m0f3840f[m -[33m[m added gzippo module added google prettify dropdown list can display api's type added constructor description [32m(4 days ago) [1;34m<lizhe>[m
+* [31mcc28082[m -[33m[m added dblclick to select all input text [32m(4 days ago) [1;34m<lizhe>[m
+* [31mab38041[m -[33m[m dropdown list data processing on the front-end update web interface file read using the parallel processing changed data to static json files removed wrench module [32m(4 days ago) [1;34m<lizhe>[m
+* [31md751c8d[m -[33m[m optimize the size of transmitted data [32m(4 days ago) [1;34m<lizhe>[m
+* [31m49485d8[m -[33m[m added wrench module [32m(4 days ago) [1;34m<lizhe>[m
+* [31mede556f[m -[33m[m stupid commit, just change tab size [32m(4 days ago) [1;34m<lizhe>[m
+* [31m96c514e[m -[33m[m store json data to the local [32m(4 days ago) [1;34m<lizhe>[m
+* [31m8e297df[m -[33m[m not to transfer all the data [32m(4 days ago) [1;34m<lizhe>[m
+* [31m646eb5d[m -[33m[m added app description [32m(4 days ago) [1;34m<lizhe>[m
+* [31m6194a87[m -[33m[m first commit [32m(13 days ago) [1;34m<lizhe>[m
+* [31m8a67ca7[m -[33m[m initial commit [32m(13 days ago) [1;34m<lizhe>[m
