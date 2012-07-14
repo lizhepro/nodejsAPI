@@ -2,13 +2,7 @@
   .title.show-grid
     h1 Nodejs API
   .share
-    .g-plusone(data-size='medium')
     script(type='text/javascript', charset='utf-8')
-      (function() {
-        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-        po.src = 'https://apis.google.com/js/plusone.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-      })();
       (function(){
         var _w = 90 , _h = 24;
         var param = {
@@ -27,9 +21,7 @@
           temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
         }
         document.write('<iframe allowTransparency="true" frameborder="0" scrolling="no" src="http://hits.sinajs.cn/A1/weiboshare.html?' + temp.join('&') + '" width="'+ _w+'" height="'+_h+'"></iframe>')
-      })()
-    <iframe frameborder="0" scrolling="no" allowtransparency="true" src="https://platform.twitter.com/widgets/tweet_button.1340179658.html#_=1342285864031&amp;count=horizontal&amp;id=twitter-widget-108&amp;lang=en&amp;original_referer=https%3A%2F%2Ftwitter.com%2Fabout%2Fresources%2Fbuttons%23tweet&amp;size=m&amp;text=NodejsAPI&amp;url=http%3A%2F%2Fnodejsapi.cloudfoundry.com%2F" class="twitter-share-button twitter-count-horizontal" style="width: 106px; height: 20px;" title="Twitter Tweet Button"></iframe>
-    <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fnodejsapi.cloudfoundry.com%2F&amp;send=false&amp;layout=button_count&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+      })();
   .search.show-grid
       <input id='searchinput' type='text' data-provide='typeahead' placeholder='type whatever u like' autocomplete='off' />
   div.content.show-grid
