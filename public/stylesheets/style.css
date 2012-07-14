@@ -1,5 +1,9 @@
+.main {
+  margin: 0 auto;
+  width: 960px;
+}
 body {
-  padding: 50px;
+  padding: 40px;
   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
 }
 .title {
@@ -7,8 +11,17 @@ body {
   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
 }
 .show-grid {
-  margin-top: 10px;
-  margin-bottom: 20px;
+  margin: 20px;
+}
+.search {
+  text-align: center;
+}
+#searchinput {
+  height: 26px;
+}
+.content {
+  width: 570px;
+  margin: 0 auto;
 }
 #api-desc {
   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
@@ -27,15 +40,33 @@ body {
   font-size: 16px;
   line-height: 22px;
 }
-p {
-  text-rendering: optimizeLegibility;
-}
 #api-signatures p {
   margin-bottom: 30px;
 }
+p {
+  text-rendering: optimizeLegibility;
+}
 .dropdown-type {
   margin-right: 8px;
+  height: 26px;
+  line-height: 26px;
 }
 h3 {
   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
+}
+.dropdown-menu li a {
+  height: 26px;
+  line-height: 26px;
+}
+#class-navigation {
+  position: absolute;
+  left: 0;
+  top: 20px;
+}
+#class-navigation ul {
+  height: auto;
+  width: 60px;
+}
+.active {
+  font-weight: bold;
 }

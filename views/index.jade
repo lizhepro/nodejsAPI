@@ -1,17 +1,16 @@
-div.container
-  div.row.show-grid
-    div.span6.offset3.title
-      h1 Nodejs API
-  div.row.show-grid
-    div.span6.offset3
-        <input id='searchinput' class='span6' type='text' data-provide='typeahead' placeholder='type whatever u like' autocomplete='off' />
-  div.row.show-grid
-    div.span6.offset3
-      #api-signatures
-      #api-desc
+div.main
+  div.title.show-grid
+    h1 Nodejs API
+  div.search.show-grid
+      <input id='searchinput' class='span6' type='text' data-provide='typeahead' placeholder='type whatever u like' autocomplete='off' />
+  div.content.show-grid
+    #api-signatures
+    #api-desc
+#class-navigation
+  ul.nav.nav-tabs.nav-stacked
 
-  a(href='https://github.com/lizhepro')
-    img(style='position: absolute; top: 0; right: 0; border: 0;', src='https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png', alt='Fork me on github')
+a(href='https://github.com/lizhepro')
+  img(style='position: absolute; top: 0; right: 0; border: 0;', src='https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png', alt='Fork me on github')
 
 link(rel='stylesheet', href='/google-code-prettify/prettify.css')
 script(src='/bootstrap/js/bootstrap-typeahead.js', type='text/javascript', charset='utf-8')
