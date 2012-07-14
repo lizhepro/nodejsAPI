@@ -2,7 +2,6 @@ $(document).ready(function() {
   var searchInput = $('#searchinput');
   var apiDescDiv = $('#api-desc');
   var apiSignatures = $('#api-signatures');
-
   var nodeVersion = '0.8.1';
 
   var apiList;
@@ -218,7 +217,7 @@ $(document).ready(function() {
       $li.append($a);
       frag.appendChild($li[0]);
     }
-    $('#class-navigation ul').empty().append(frag);
+    $('#navigation-content').empty().append(frag);
   };
 });
 

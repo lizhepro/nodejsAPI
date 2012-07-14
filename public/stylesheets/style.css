@@ -18,9 +18,10 @@ body {
 }
 #searchinput {
   height: 26px;
+  width: 570px;
 }
 .content {
-  width: 570px;
+  width: 580px;
   margin: 0 auto;
 }
 #api-desc {
@@ -62,10 +63,25 @@ h3 {
   position: absolute;
   left: 0;
   top: 20px;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
+  filter: alpha(opacity=25);
+  -moz-opacity: 0.25;
+  -khtml-opacity: 0.25;
+  opacity: 0.25;
 }
-#class-navigation ul {
+#class-navigation:hover {
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  filter: alpha(opacity=80);
+  -moz-opacity: 0.8;
+  -khtml-opacity: 0.8;
+  opacity: 0.8;
+}
+#navigation-content {
   height: auto;
-  width: 60px;
+  min-width: 60px;
+}
+#navigation-content li a {
+  color: #9c9494;
 }
 .active {
   font-weight: bold;

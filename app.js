@@ -5,7 +5,9 @@ var express = require('express')
 , gzippo = require('gzippo')
 , routes = require('./routes');
 
+
 var app = module.exports = express.createServer();
+
 
 // Configuration
 
@@ -16,7 +18,6 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(require('stylus').middleware({ src: __dirname + '/public' }));
   app.use(app.router);
-  app.use(express.staticCache());
   //app.use(express.static(__dirname + '/public'));
   app.use(gzippo.staticGzip(__dirname + '/public'));
 });
@@ -27,7 +28,7 @@ app.configure('development', function(){
 
 app.configure('production', function(){
   var oneYear = 31557600000;
-  app.use(gzippo.staticGzip(__dirname + '/public', {maxAge: oneYear}));
+  app.use(express.staticCache());
   app.use(express.errorHandler());
 });
 
