@@ -200,7 +200,9 @@ $(document).ready(function() {
       var methodName = textRaw.replace(/\([^)]*?\)$/, '');
       $a.text(methodName)
         .prop('apiObj', child)
+        .css('cursor', 'pointer')
         .on('click', function() {
+          if($(this).parent().hasClass('active')) return false;
           var obj = $(this).prop('apiObj');
 
           $(this).parent().siblings().removeClass('active')
