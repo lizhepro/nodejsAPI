@@ -10,12 +10,8 @@ body {
   text-align: center;
   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
 }
-.share {
-  margin: 0 auto;
-  width: 580px;
-}
 .show-grid {
-  margin: 18px 20px;
+  margin: 20px;
 }
 .search {
   text-align: center;
