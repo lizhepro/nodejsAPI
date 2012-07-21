@@ -4,23 +4,44 @@ $(document).ready(function() {
   var apiNameDiv = $('#api-name');
   var apiSignatureDiv = $('#api-signatures');
   var apiNavigationDiv = $('#api-navigation');
+  var apiContentDiv = $('#api-content');
   var API_VERSION = $('#apiVersion').val();
   var welcomeDiv = $('#welcome');
   var btnChangelog = $('#btn-changelog');
   var modalChangelog = $('#changelog');
   var apiList;
+  var rFileExt = /\.json$/;
 
 
   var JSON_DIR = '/json/' + API_VERSION;
   $.getJSON(JSON_DIR + '/mydata.json', function(data) {
     apiList = data;
     load(data);
+    searchInput.focus();
   });
 
   btnChangelog.on('click', function() {
     modalChangelog.modal({
       keyboard: true
     });
+  });
+
+  $(window).mousewheel(function(event, delta, deltaX, deltaY) {
+    console.log(delta);
+    clearTimeout($.data(this, 'timer'));
+    $.data(this, 'timer', setTimeout(function() {
+      console.log($(window).height());
+      if(apiContentDiv.height() + 88 < $(window).height() ||
+      delta === 1) {
+        apiContentBottom = apiContentDiv.height() + 88;
+
+        apiContentDiv
+        .stop()
+        .animate({
+          'margin-top': $(window).scrollTop()
+        }, 'fast');
+      }
+    }, 250));
   });
 
   function sortApiObject(apiObj) {
@@ -36,22 +57,24 @@ $(document).ready(function() {
     return sortedApiObject;
   }
 
-  function updateApiNavigation(sortedApiObject, data) {
+  function updateApiNavigation(sortedApiObject, owner) {
     var fragment = document.createDocumentFragment();
     var $liBack = $('<li />')
     .addClass('mouse')
+    .prop('owner', owner)
     .on('click', function() {
       loadApiNavigation(apiList);
     });
     var $iBack = $('<i />')
     .addClass('icon-circle-arrow-left');
-    var $textBack = '返回';
+    var $textBack = 'go back';
     $liBack.append($iBack).append($textBack);
     fragment.appendChild($liBack[0]);
 
 
     var apiTypeKeys = Object.keys(sortedApiObject);
 
+    var apiData;
     for(var i=0, apiType; apiType=apiTypeKeys[i]; i++) {
       var oneApiTypeObj = sortedApiObject[apiType];
       var $apiTypeLiHeader = $('<li />')
@@ -66,19 +89,33 @@ $(document).ready(function() {
         .text(apiName.replace(/\([^)]*\)/, ''))
         .prop({
           apiObj: oneApiTypeObj[apiName]
+        , owner: owner
         })
         .on('click', function() {
           var apiObj = $(this).prop('apiObj');
-          var value = getValueByPath(data, apiObj.path);
-
-          updateApiContent(value);
+          if(apiData) {
+            updateApiContent(getValueByPath(apiData, apiObj.path));
+          } else {
+            $.getJSON(JSON_DIR + '/' + $(this).prop('owner'),
+            function(data) {
+              apiData = data;
+              updateApiContent(getValueByPath(apiData, apiObj.path));
+            });
+          }
         });
 
         $li.append($a);
         fragment.appendChild($li[0]);
       }
     }
-    apiNavigationDiv.empty().append(fragment);
+    apiNavigationDiv.find('ul').empty().append(fragment);
+
+    document.body.scrollIntoView();
+
+    apiContentDiv
+    .animate({
+      'margin-top': 0
+    }, 'fast');
   }
 
   function loadApiNavigation(apiList) {
@@ -93,23 +130,21 @@ $(document).ready(function() {
       var $li = $('<li />');
       var $a = $('<a />')
       .addClass('mouse')
-      .text(apiFileName.replace(/\.json$/, ''))
+      .text(apiFileName.replace(rFileExt, ''))
       .prop({
         apiObj: apiList[apiFileName]
       , owner: apiFileName
       })
       .on('click', function() {
         var sortedApiObject = sortApiObject($(this).prop('apiObj'));
-        $.getJSON(JSON_DIR + '/' + $(this).prop('owner'),
-        function(data) {
-          updateApiNavigation(sortedApiObject, data);
-        });
+        updateApiNavigation(sortedApiObject, $(this).prop('owner'));
       });
 
       $li.append($a);
       fragment.appendChild($li[0]);
     }
-    apiNavigationDiv.empty().append(fragment);
+    apiNavigationDiv.find('ul').empty().append(fragment);
+
   }
 
   function updateApiContent(value) {
@@ -117,6 +152,8 @@ $(document).ready(function() {
     apiNameDiv.find('h3').html(value.textRaw);
     apiSignatureDiv.html(generateSignatureHtml(value));
     apiDescDiv.html(value.desc || '');
+
+    $(window).trigger('mousewheel');
 
     //code highlight
     $('code').parent('pre').addClass('prettyprint');

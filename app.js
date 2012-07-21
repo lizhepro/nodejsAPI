@@ -3,10 +3,19 @@
 */
 var express = require('express')
 , gzippo = require('gzippo')
+, i18n = require('i18n')
 , routes = require('./routes');
 
+i18n.configure({
+  locales:['en', 'zh']
+});
 
 var app = module.exports = express.createServer();
+
+app.helpers({
+  __i: i18n.__
+, __n: i18n.__n
+});
 
 
 
@@ -18,6 +27,7 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(require('stylus').middleware({ src: __dirname + '/public' }));
+  app.use(i18n.init);
   app.use(app.router);
   //app.use(express.static(__dirname + '/public'));
   app.use(gzippo.staticGzip(__dirname + '/public'));
