@@ -14,8 +14,8 @@ exports.extractObjectKeyPath = function(obj, key) {
         if (k === key) {
           var currentPath = path.slice(0, level);
           indexList[v] = {
-            p: currentPath.join('.'),
-            t: obj.type
+            path: currentPath.join('.'),
+            type: obj.type
           };
         }
       }

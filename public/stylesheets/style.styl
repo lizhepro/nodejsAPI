@@ -1,69 +1,14 @@
-font = 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif
-contentWidth = 580px
-
-transparent(n)
-  -ms-filter unquote('progid:DXImageTransform.Microsoft.Alpha(Opacity=' + round(n * 100) + ')')
-  filter unquote('alpha(opacity=' + round(n * 100) + ')')
-  -moz-opacity n
-  -khtml-opacity n
-  opacity n
-
-.main
-  margin: 0 auto
-  width: 960px
 body
-  padding: 40px
-  font-family: font
-.title
-  text-align: center
-  font-family: font
-.show-grid
-  margin: 20px
-.search
-  text-align: center
-#searchinput
-  height: 26px
-  width: 570px
-.content, .feedback
-  width: contentWidth
-  margin: 0 auto
-#api-desc
-  font-family: font
-  font-size: 16px
-  line-height: 24px
-#api-signatures h3
-  margin: 20px 0 5px 0
-#api-signatures ul
-  margin-bottom: 15px
-#api-signatures li, #api-signatures p
-  font-family: font
-  font-size: 16px
-  line-height: 22px
-#api-signatures p
-  margin-bottom: 30px
-p
-  text-rendering: optimizeLegibility;
+  padding-top: 60px
+  padding-bottom: 40px
 .dropdown-type
   margin-right: 8px
-  height: 26px
-  line-height: 26px
-h3
-  font-family: font
-.dropdown-menu li a
-  height: 26px
-  line-height: 26px
-#class-navigation
-  position: absolute
-  left: 0
-  top: 20px
-  transparent(0.25)
-#class-navigation:hover
-  transparent(0.8)
-#navigation-content
-  height: auto
-  min-width: 60px
-#navigation-content li a
-  color: #9c9494
-
-.active
-  font-weight: bold
+  height: 30px
+.dropdown-menu li > a
+  line-height: 30px
+.dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover
+  color: #F70203 !important
+.mouse
+  cursor: pointer
+#changelog p
+  word-spacing: 20px;

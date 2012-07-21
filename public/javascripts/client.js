@@ -1,99 +1,206 @@
 $(document).ready(function() {
   var searchInput = $('#searchinput');
   var apiDescDiv = $('#api-desc');
-  var apiSignatures = $('#api-signatures');
-  var nodeVersion = '0.8.1';
-
+  var apiNameDiv = $('#api-name');
+  var apiSignatureDiv = $('#api-signatures');
+  var apiNavigationDiv = $('#api-navigation');
+  var API_VERSION = $('#apiVersion').val();
+  var welcomeDiv = $('#welcome');
+  var btnChangelog = $('#btn-changelog');
+  var modalChangelog = $('#changelog');
   var apiList;
-  $.getJSON('/json/' + nodeVersion + '/mydata.json', function(data) {
+
+
+  var JSON_DIR = '/json/' + API_VERSION;
+  $.getJSON(JSON_DIR + '/mydata.json', function(data) {
     apiList = data;
-    searchInput.focus();
+    load(data);
   });
 
-  var autocomplete = searchInput.typeahead({
-    updater: function(item) {
-      var apiObj = JSON.parse(item);
-      var itemName = apiObj.item;
-      var itemPath;
-      var myKeys = Object.keys(apiList);
-      //获取用户输入api名称对应的路径
-      for(var i=0, apiFileName; apiFileName=myKeys[i]; i++) {
-        if(itemPath) break;
-        var apiFileJSON = apiList[apiFileName];
-        var apiNameKeys = Object.keys(apiFileJSON);
-        for(var j=0, apiName; apiName=apiNameKeys[j]; j++) {
-          if(apiName === itemName &&
-          apiFileName === apiObj.owner) {
-            itemPath = apiFileJSON[apiName].p;
-            break;
-          }
-        }
+  btnChangelog.on('click', function() {
+    modalChangelog.modal({
+      keyboard: true
+    });
+  });
+
+  function sortApiObject(apiObj) {
+    var sortedApiObject = {};
+    var apiNameList = Object.keys(apiObj);
+    for(var i=0, apiName; apiName=apiNameList[i]; i++) {
+      var obj = apiObj[apiName];
+      var objType = obj.type;
+      if(!obj.type) continue;
+      !sortedApiObject[objType] ? sortedApiObject[objType] = {} : null;
+      sortedApiObject[objType][apiName] = obj;
+    }
+    return sortedApiObject;
+  }
+
+  function updateApiNavigation(sortedApiObject, data) {
+    var fragment = document.createDocumentFragment();
+    var $liBack = $('<li />')
+    .addClass('mouse')
+    .on('click', function() {
+      loadApiNavigation(apiList);
+    });
+    var $iBack = $('<i />')
+    .addClass('icon-circle-arrow-left');
+    var $textBack = '返回';
+    $liBack.append($iBack).append($textBack);
+    fragment.appendChild($liBack[0]);
+
+
+    var apiTypeKeys = Object.keys(sortedApiObject);
+
+    for(var i=0, apiType; apiType=apiTypeKeys[i]; i++) {
+      var oneApiTypeObj = sortedApiObject[apiType];
+      var $apiTypeLiHeader = $('<li />')
+      .addClass('nav-header')
+      .text(apiType);
+      fragment.appendChild($apiTypeLiHeader[0]);
+      var apiNameList = Object.keys(oneApiTypeObj);
+      for(var j=0, apiName; apiName=apiNameList[j]; j++) {
+        var $li = $('<li />');
+        var $a = $('<a />')
+        .addClass('mouse')
+        .text(apiName.replace(/\([^)]*\)/, ''))
+        .prop({
+          apiObj: oneApiTypeObj[apiName]
+        })
+        .on('click', function() {
+          var apiObj = $(this).prop('apiObj');
+          var value = getValueByPath(data, apiObj.path);
+
+          updateApiContent(value);
+        });
+
+        $li.append($a);
+        fragment.appendChild($li[0]);
       }
+    }
+    apiNavigationDiv.empty().append(fragment);
+  }
 
+  function loadApiNavigation(apiList) {
+    var fragment = document.createDocumentFragment();
+    var $liHeader = $('<li />')
+    .addClass('nav-header')
+    .text('Table of Contents');
+    fragment.appendChild($liHeader[0]);
 
-      //通过api的owner和path获取api对象
-      $.getJSON('/json/' + nodeVersion
-        + '/' + apiObj.owner, function(data) {
-        var value = getValueByPath(data, itemPath);
-
-        apiSignatures.html(generateSignatureHtml(value));
-        apiDescDiv.html(value.desc);
-
-        var parentPath = itemPath.split('.');
-        parentPath.pop();
-        var parent = getValueByPath(data, parentPath.join('.'));
-        updateClassNavigation(parent, itemName);
-
-
-
-        $('code').parent('pre').addClass('prettyprint');
-        prettyPrint();
+    var apiFileNameList = Object.keys(apiList).sort();
+    for(var i=0, apiFileName; apiFileName=apiFileNameList[i]; i++) {
+      var $li = $('<li />');
+      var $a = $('<a />')
+      .addClass('mouse')
+      .text(apiFileName.replace(/\.json$/, ''))
+      .prop({
+        apiObj: apiList[apiFileName]
+      , owner: apiFileName
+      })
+      .on('click', function() {
+        var sortedApiObject = sortApiObject($(this).prop('apiObj'));
+        $.getJSON(JSON_DIR + '/' + $(this).prop('owner'),
+        function(data) {
+          updateApiNavigation(sortedApiObject, data);
+        });
       });
 
-      return itemName;
+      $li.append($a);
+      fragment.appendChild($li[0]);
     }
-  }).on('dblclick', function() {
-    $(this).select();
-  }).on('keyup', function(ev) {
+    apiNavigationDiv.empty().append(fragment);
+  }
 
-    ev.stopPropagation();
-    ev.preventDefault();
+  function updateApiContent(value) {
+    welcomeDiv.hide();
+    apiNameDiv.find('h3').html(value.textRaw);
+    apiSignatureDiv.html(generateSignatureHtml(value));
+    apiDescDiv.html(value.desc || '');
 
-    if( $.inArray(ev.keyCode,[40,38,9,13,27]) === -1 ) {
-      var self = $(this);
+    //code highlight
+    $('code').parent('pre').addClass('prettyprint');
+    prettyPrint();
+  }
 
-      self.data('typeahead').source = [];
+  function load(apiList) {
+    //load api navigation
+    loadApiNavigation(apiList);
 
-      if(!self.data('active') && self.val().length > 0){
-
-        var rInput = new RegExp(escapeInput($(this).val()), 'i');
-        var dropDownApiList = [];
-        var myKeys = Object.keys(apiList);
-        for(var i=0, apiFileName; apiFileName=myKeys[i]; i++) {
+    //load typeahead
+    var autocomplete = searchInput.typeahead({
+      updater: function(item) {
+        var apiObj = JSON.parse(item);
+        var itemName = apiObj.item;
+        var itemPath;
+        var apiFileNameList = Object.keys(apiList);
+        //获取用户输入api名称对应的路径
+        for(var i=0, apiFileName; apiFileName=apiFileNameList[i]; i++) {
+          if(itemPath) break;
           var apiFileJSON = apiList[apiFileName];
-          var apiNameKeys = Object.keys(apiFileJSON);
-          for(var j=0, apiName; apiName=apiNameKeys[j]; j++) {
-            if(rInput.test(apiName)) {
-              dropDownApiList.push(JSON.stringify({
-                item: apiName,
-                type: apiFileJSON[apiName].t,
-                owner: apiFileName
-              }));
+          var apiNameList = Object.keys(apiFileJSON);
+          for(var j=0, apiName; apiName=apiNameList[j]; j++) {
+            if(apiName === itemName &&
+            apiFileName === apiObj.owner) {
+              itemPath = apiFileJSON[apiName].path;
+              break;
             }
           }
         }
-        self.data('active', true);
 
-        //set your results into the typehead's source
-        self.data('typeahead').source = dropDownApiList;
 
-        //trigger keyup on the typeahead to make it search
-        self.trigger('keyup');
+        //通过api的owner和path获取api对象
+        $.getJSON(JSON_DIR + '/' + apiObj.owner, function(data) {
+          var value = getValueByPath(data, itemPath);
 
-        self.data('active', false);
+          updateApiContent(value);
+        });
+
+        return itemName;
       }
-    }
-  });
+    }).on('dblclick', function() {
+      $(this).select();
+    }).on('keyup', function(ev) {
+
+      ev.stopPropagation();
+      ev.preventDefault();
+
+      if( $.inArray(ev.keyCode,[40,38,9,13,27]) === -1 ) {
+        var self = $(this);
+
+        self.data('typeahead').source = [];
+
+        if(!self.data('active') && self.val().length > 0){
+
+          var rInput = new RegExp(escapeInput($(this).val()), 'i');
+          var dropDownApiList = [];
+          var apiFileNameList = Object.keys(apiList);
+          for(var i=0, apiFileName; apiFileName=apiFileNameList[i]; i++) {
+            var apiFileJSON = apiList[apiFileName];
+            var apiNameList = Object.keys(apiFileJSON);
+            for(var j=0, apiName; apiName=apiNameList[j]; j++) {
+              if(rInput.test(apiName)) {
+                dropDownApiList.push(JSON.stringify({
+                  item: apiName,
+                  type: apiFileJSON[apiName].type,
+                  owner: apiFileName
+                }));
+              }
+            }
+          }
+          self.data('active', true);
+
+          //set your results into the typehead's source
+          self.data('typeahead').source = dropDownApiList;
+
+          //trigger keyup on the typeahead to make it search
+          self.trigger('keyup');
+
+          self.data('active', false);
+        }
+      }
+    });
+  }
 
   /*
   * 通过路径获取对象
@@ -186,38 +293,4 @@ $(document).ready(function() {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
   };
 
-  var updateClassNavigation = function(parent, itemName) {
-    if(!parent) return false;
-    var frag = document.createDocumentFragment();
-    for(var i=0, child; child=parent[i]; i++) {
-      var $li = $('<li />');
-      var $a = $('<a />');
-      var textRaw = child.textRaw;
-      if(textRaw === itemName) {
-        $li.addClass('active');
-      }
-      var methodName = textRaw.replace(/\([^)]*?\)$/, '');
-      $a.text(methodName)
-        .prop('apiObj', child)
-        .css('cursor', 'pointer')
-        .on('click', function() {
-          if($(this).parent().hasClass('active')) return false;
-          var obj = $(this).prop('apiObj');
-
-          $(this).parent().siblings().removeClass('active')
-            .end()
-            .addClass('active');
-
-          searchInput.val(obj.textRaw);
-
-          apiSignatures.html(generateSignatureHtml(obj));
-          apiDescDiv.html(obj.desc);
-
-        });
-
-      $li.append($a);
-      frag.appendChild($li[0]);
-    }
-    $('#navigation-content').empty().append(frag);
-  };
 });

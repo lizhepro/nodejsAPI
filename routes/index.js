@@ -1,10 +1,13 @@
-var objectUtil = require('../object-util');
+var defaultConfig = require('../config').getDefaultConfig();
 /*
 * GET home page.
 */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'NodejsAPI' });
+  res.render('index', {
+    title: 'Nodejs API'
+  , API_VERSION: defaultConfig.API_VERSION + ''
+  });
 };
 
 

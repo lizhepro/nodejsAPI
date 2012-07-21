@@ -1,8 +1,9 @@
-var async = require('async');
-var fs = require('fs');
-var path = require('path');
-var rest = require('./rest');
-var objectUtil = require('./object-util');
+var async = require('async')
+, fs = require('fs')
+, path = require('path')
+, rest = require('./rest')
+, objectUtil = require('./object-util')
+, defaultConfig = require('./config').getDefaultConfig();
 
 
 
@@ -33,13 +34,14 @@ var grabJSON = exports.grabJSON = function(version) {
       }
 
       var apiList = {};
-      var JSON_DIR_NAME = __dirname + '/public/json/'
-      + nodeVersion + '/';
+      var JSON_DIR = __dirname
+        + '/public/json/'
+        + nodeVersion;
 
 
       async.waterfall([
         function(callback) {
-          fs.exists(JSON_DIR_NAME, function(exists) {
+          fs.exists(JSON_DIR, function(exists) {
             callback(null, exists);
           });
         },
@@ -47,7 +49,7 @@ var grabJSON = exports.grabJSON = function(version) {
           if(exists) {
             callback(null);
           } else {
-            fs.mkdir(JSON_DIR_NAME, callback);
+            fs.mkdir(JSON_DIR, callback);
           }
         }
       ], function(err) {
@@ -60,9 +62,8 @@ var grabJSON = exports.grabJSON = function(version) {
                 var jsonObj = JSON.parse(output);
                 apiList[task] = objectUtil
                 .extractObjectKeyPath(jsonObj, 'textRaw');
-                fs.writeFile(JSON_DIR_NAME + task,
-                  JSON.stringify(jsonObj),
-                  'utf-8', function(err) {
+                fs.writeFile(JSON_DIR + '/' + task,
+                  JSON.stringify(jsonObj), 'utf-8', function(err) {
                     if(err) {
                       console.log(err.stack);
                     }
@@ -75,7 +76,7 @@ var grabJSON = exports.grabJSON = function(version) {
 
           q.drain = function() {
             var stringData = JSON.stringify(apiList);
-            fs.writeFile(JSON_DIR_NAME + 'mydata.json',
+            fs.writeFile(JSON_DIR + '/mydata.json',
               stringData, 'utf-8', function(err) {
                 if(!err) {
                   console.log('finished generate mydata.json');
@@ -94,7 +95,7 @@ var grabJSON = exports.grabJSON = function(version) {
   });
 };
 
-grabJSON();
+grabJSON(defaultConfig.API_VERSION);
 
 process.on('uncaughtException', function(err) {
   console.log(err.stack);

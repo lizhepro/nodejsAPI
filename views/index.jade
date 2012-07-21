@@ -1,19 +1,120 @@
-.main
-  .title.show-grid
-    h1 Nodejs API
-  .search.show-grid
-      <input id='searchinput' type='text' data-provide='typeahead' placeholder='type whatever u like' autocomplete='off' />
-  div.content.show-grid
-    #api-signatures
-    #api-desc
-#class-navigation
-  ul#toggle-navigation.nav.nav-tabs.nav-stacked
-  ul#navigation-content.nav.nav-tabs.nav-stacked
+input#apiVersion(type='hidden', value='#{API_VERSION}')
 
-a(href='https://github.com/lizhepro')
-  img(style='position: absolute; top: 0; right: 0; border: 0;', src='https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png', alt='Fork me on github')
+//header
+.navbar.navbar-fixed-top
+  .navbar-inner
+    .container-fluid
+      a.btn.btn-navbar(data-toggle='collapse', data-target='.nav-collapse')
+        span.icon-bar
+        span.icon-bar
+      a.brand(href='javascript:window.location.reload();') #{title}
+      .nav-collapse
+        ul.nav
+          li
+            a.mouse#btn-changelog 更新记录
+          li
+            a(href='mailto:lizhepro@gmail.com') 反馈
+          li
+            a 关于我
+        form.navbar-search.pull-left(action='#')
+          input.search-query.span5#searchinput(type='text', data-provide='typeahead', placeholder='请输入', autocomplete='off')
 
+//body
+.container-fluid
+  .row-fluid
+    .span3
+      .well.sidebar-nav
+        ul.nav.nav-list#api-navigation
+          li.nav-header Class
+          li
+            a http.create
+          li
+            a http.create
+          li
+            a http.create
+          li
+            a http.create
+          li
+            a http.create
+          li
+            a http.create
+          li
+            a http.create
+          li
+            a http.create
+    .span9
+      .row-fluid#api-name
+        h3
+      .row-fluid#api-signatures
+      .row-fluid#api-desc
+      .row-fluid#welcome
+        .hero-unit
+          h1 欢迎使用Nodejs API
+          p 觉得不错?不妨帮我宣传宣传吧
+          p
+            ul.nav.nav-pills#share
+              li
+                script(type='text/javascript')
+                  (function(){
+                    var _w = 90 , _h = 24;
+                    var param = {
+                      url:location.href,
+                      type:'2',
+                      count:'1', /**是否显示分享数，1显示(可选)*/
+                      appkey:'', /**您申请的应用appkey,显示分享来源(可选)*/
+                      title:'', /**分享的文字内容(可选，默认为所在页面的title)*/
+                      pic:'', /**分享图片的路径(可选)*/
+                      ralateUid:'2826902417', /**关联用户的UID，分享微博会@该用户(可选)*/
+                      language:'zh_cn', /**设置语言，zh_cn|zh_tw(可选)*/
+                      rnd:new Date().valueOf()
+                    }
+                    var temp = [];
+                    for( var p in param ){
+                      temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
+                    }
+                    document.write('<iframe allowTransparency="true" frameborder="0" scrolling="no" src="http://hits.sinajs.cn/A1/weiboshare.html?' + temp.join('&') + '" width="'+ _w+'" height="'+_h+'"></iframe>')
+                  })();
+              li
+                <g:plusone></g:plusone>
+
+
+.modal.hide.fade#changelog
+  .modal-header
+    button.close(type='button', data-dismiss='modal') ×
+    h3 更新记录
+  .modal-body
+    p 2012-7-21 更换了页面风格，左侧导航分类进行显示
+    p 2012-7-14 更新了界面ui，输入框和下拉列表更大，更清晰了
+    p 2012-7-13 增加了左侧导航，可以快速跳转到相似的方法、类
+    p 2012-7-10 移除了下拉列表字体样式,开发分支切换到master_clean
+    p 2012-7-13 增加了左侧导航条，可以快速跳转到相关的方法
+    p 2012-7-09 解决了typeahead在firefox下无法使用方向键的问题
+    p 2012-7-08 加入了gzippo，对静态资源进行压缩
+    p 2012-7-07 优化了查询方式，双击可以全选搜索框内容
+    p 2012-7-06 下拉列表数据放到前端处理
+    p 2012-7-04 优化了传输的数据大小
+    p 2012-7-02 对查询进行了优化，不再返回所有数据
+    p 2012-7-01 第一次发布
+  .modal-footer
+    a.btn(href='#', data-dismiss='modal') 关闭
+
+//github fork
+a(href='https://github.com/lizhepro/nodejsAPI')
+  img(style='position: absolute; top: 0; right: 0; border: 0;', src='https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png', alt='Fork me on GitHub')
+
+script(type='text/javascript')
+  //google plus button
+  window.___gcfg = {lang: 'zh-CN'};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
 link(rel='stylesheet', href='/google-code-prettify/prettify.css')
-script(src='/bootstrap/js/bootstrap-typeahead.js', type='text/javascript', charset='utf-8')
-script(src='/javascripts/client.js', type='text/javascript', charset='utf-8')
-script(src='/google-code-prettify/prettify.js', type='text/javascript', charset='utf-8')
+script(src='/javascripts/jquery-1.7.2.min.js', type='text/javascript')
+script(src='/bootstrap/js/bootstrap.min.js', type='text/javascript')
+script(src='/bootstrap/js/bootstrap-typeahead.js', type='text/javascript')
+script(src='/bootstrap/js/bootstrap-modal.js', type='text/javascript')
+script(src='/bootstrap/js/bootstrap-transition.js', type='text/javascript')
+script(src='/javascripts/client.js', type='text/javascript')
+script(src='/google-code-prettify/prettify.js', type='text/javascript')
