@@ -74,16 +74,13 @@ input#apiVersion(type='hidden', value='#{API_VERSION}')
                   })();
               li
                 <g:plusone></g:plusone>
-              li
-                iframe(src='http://markdotto.github.com/github-buttons/github-btn.html?user=lizhepro&repo=nodejsAPI&type=watch&count=true', allowtransparency='true', frameborder='0', scrolling='0', width='110px', height='20px')
-              li
-                iframe(src='http://markdotto.github.com/github-buttons/github-btn.html?user=lizhepro&repo=nodejsAPI&type=fork&count=true', allowtransparency='true', frameborder='0', scrolling='0', width='110px', height='20px')
 
 .modal.hide.fade#changelog
   .modal-header
     button.close(type='button', data-dismiss='modal') ×
     h3 #{__i('Changelog')}
   .modal-body
+    p 2012-8-13 删除了github watch buttons，api版本更新到0.8.6
     p 2012-7-21 更换了页面风格，左侧导航分类进行显示
     p 2012-7-14 更新了界面ui，输入框和下拉列表更大，更清晰了
     p 2012-7-13 增加了左侧导航，可以快速跳转到相似的方法、类

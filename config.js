@@ -1,5 +1,5 @@
 exports.getDefaultConfig = function() {
   return {
-    API_VERSION: '0.8.3'
+    API_VERSION: '0.8.6'
   };
 };
