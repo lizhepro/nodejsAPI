@@ -27,10 +27,8 @@ $(document).ready(function() {
   });
 
   $(window).mousewheel(function(event, delta, deltaX, deltaY) {
-    console.log(delta);
     clearTimeout($.data(this, 'timer'));
     $.data(this, 'timer', setTimeout(function() {
-      console.log($(window).height());
       if(apiContentDiv.height() + 88 < $(window).height() ||
       delta === 1) {
         apiContentBottom = apiContentDiv.height() + 88;
@@ -144,7 +142,6 @@ $(document).ready(function() {
       fragment.appendChild($li[0]);
     }
     apiNavigationDiv.find('ul').empty().append(fragment);
-
   }
 
   function updateApiContent(value) {
