@@ -1,5 +1,5 @@
 # Nodejs API
-[nodejsapi](http://nodejsapi.cloudfoundry.com/) inspired by [ctrlp](https://github.com/kien/ctrlp.vim/), type whatever you like.
+[nodejsapi](http://nodejsapi.cfapps.io/) inspired by [ctrlp](https://github.com/kien/ctrlp.vim/), type whatever you like.
 
 ##SUPPORTED BROWSERS
 * firefox, chrome, ie9+
