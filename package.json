@@ -1,11 +1,28 @@
 {
-    "name": "nodejsapi"
-  , "version": "0.0.1"
-  , "private": true
-  , "dependencies": {
-      "express": "2.5.11"
-    , "stylus": ">= 0.0.1"
-    , "jade": ">= 0.0.1"
-    , "async": ">= 0.1.22"
-  }
+  "name": "nodejsapi",
+  "version": "0.0.1",
+  "private": true,
+  "main": "app.js",
+  "dependencies": {
+    "express": "2.5.11",
+    "stylus": ">= 0.0.1",
+    "jade": ">= 0.0.1",
+    "async": ">= 0.1.22"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "readmeFilename": "README.md",
+  "gitHead": "47194e629dda084d1b7699f1f1456808fe5017d4",
+  "description": "[nodejsapi](http://nodejsapi.cfapps.io/) inspired by [ctrlp](https://github.com/kien/ctrlp.vim/), type whatever you like.",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lizhepro/nodejsapi.git"
+  },
+  "author": "zhea55",
+  "license": "BSD"
 }
