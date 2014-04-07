@@ -1,6 +1,38 @@
 body {
   padding-top: 60px;
   padding-bottom: 40px;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
+}
+.title {
+  text-align: center;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
+}
+.show-grid {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+#api-desc {
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
+  font-size: 16px;
+  line-height: 24px;
+}
+#api-signatures h3 {
+  margin: 20px 0 5px 0;
+}
+#api-signatures ul {
+  margin-bottom: 15px;
+}
+#api-signatures li,
+#api-signatures p {
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
+  font-size: 16px;
+  line-height: 22px;
+}
+p {
+  text-rendering: optimizeLegibility;
+}
+#api-signatures p {
+  margin-bottom: 30px;
 }
 .dropdown-type {
   margin-right: 8px;
